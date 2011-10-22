@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<link rel="stylesheet" href="stylesheets/autokomplete.css" />
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<!-- 
+		<script src="https://lesscss.googlecode.com/files/less-1.1.3.min.js"></script> 
+	!-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="src/jquery.autoGrowInput.js"></script>
+	<script src="src/jquery.autokomplete.js"></script>
+	<script>
+		var bears = [
+			{id:1, caption:'Cinnamon Bear'},
+			{id:2, caption:'Kermode Bear'},
+			{id:3, caption:'Baluchistan Bear'},
+			{id:4, caption:'Formosan Black Bear'},
+			{id:5, caption:'Pakistan Black Bear'},
+			{id:6, caption:'Eurasian Brown Bear'},
+			{id:7, caption:'European Brown Bear'},
+		];
+		$(function() {
+			$('.bears').autokomplete({
+				source: function(q, add) {
+					var response = [];
+					for(var i=0; i<bears.length; i++) {
+						var regex = new RegExp(q, 'gi');
+						var name = bears[i].caption;
+						if(name.match(regex)) {
+							response.push(bears[i]);
+						}
+					}
+					add(response);
+				},
+				values: [
+					{id:5, caption:'Pakistan Black Bear'}
+				],
+				onChange: function(vals) {
+					var values = [];
+					for(var i=0; i<vals.length;i++) {
+						values.push(vals[i].id);
+					}
+					console.log(values.join(','));
+				},
+				width:500
+			});
+		});
+	</script>
+</head>
+<body>
+	<input type="text" class="bears" />
+</body>
+</html>
